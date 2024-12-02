@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
+import Layout from "./layout/Layout";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import SearchResultPage from "./pages/SearchResultPage";
+import DetailPage from "./pages/DetailPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import GenresPage from "./pages/GenresPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<ProtectedRoutes />}>
+        <Route path="/" element={<Layout />}>
+          {/* <Route index element={<HomePage />} /> */}
+          <Route path="home" element={<HomePage />} />
+          <Route path=":genres" element={<GenresPage />} />
+          <Route path="search-result" element={<SearchResultPage />} />
+          <Route path=":movieID" element={<DetailPage />} />
+        </Route>
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }
 
